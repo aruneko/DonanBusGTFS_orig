@@ -1,0 +1,2 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url,agency_email
+1430001056880,道南バス株式会社,http://donanbus.co.jp/,Asia/Tokyo,ja,0143-45-2131,,

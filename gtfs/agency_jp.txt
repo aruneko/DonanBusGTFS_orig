@@ -1,0 +1,2 @@
+agency_id,agency_official_name,agency_zip_number,agency_address,agency_president_pos,agency_president_name
+1430001056880,道南バス株式会社,0500083,北海道室蘭市東町３丁目２５番３号,,
