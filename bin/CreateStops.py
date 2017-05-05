@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import requests
-from itertools import groupby
+from itertools import groupby, chain
+from functools import reduce
 
 API_BASE_URL = 'http://overpass-api.de/api/interpreter?data='
 REQUEST_QUERY = '''
@@ -12,6 +13,10 @@ REQUEST_QUERY = '''
 '''
 API_URL = API_BASE_URL + REQUEST_QUERY
 HEADER = 'stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,stop_timezone,wheelchair_boarding'
+
+
+def f_chain(*args):
+    return reduce(lambda x, f: f(x), args)
 
 
 def fetch_json():
@@ -37,11 +42,12 @@ def sort_nodes(nodes):
 def create_pole(node):
     n = node
     t = n['tags']
-    return f"{t['ref']},,{t['name']},,{n['lat']},{n['lon']},,,0,,,"
+    refs = t['ref'].split()
+    return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,,," for ref in refs]
 
 
 def create_poles(nodes):
-    return [create_pole(node) for node in nodes]
+    return chain.from_iterable([create_pole(node) for node in nodes])
 
 
 def valid_name(name):
@@ -67,12 +73,13 @@ def create_stops(nodes):
 
 
 def main():
-    raw_json = fetch_json()
-    elements = extract_elements(raw_json)
-    nodes = extract_valid_nodes(elements)
-    sorted_nodes = sort_nodes(nodes)
-    poles = create_poles(sorted_nodes)
-    stops = create_stops(sorted_nodes)
+    nodes = f_chain(fetch_json(),
+                    extract_elements,
+                    extract_valid_nodes,
+                    sort_nodes)
+
+    poles = create_poles(nodes)
+    stops = create_stops(nodes)
 
     print(HEADER)
 
