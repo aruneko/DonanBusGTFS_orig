@@ -1,9 +1,9 @@
 office_id,office_name,office_url,office_phone
-muroran_higashi,室蘭東営業所,,0143-45-3411
-noboribetsu_wakayama,登別若山営業所,,0143-85-8871
+muroran,室蘭東営業所,,0143-45-3411
+noboribetsu,登別若山営業所,,0143-85-8871
 tomakomai,苫小牧営業所,,0144-55-7125
 kinsei,錦西営業所,,0144-67-3100
-new_chitose,新千歳空港センター,,0123-46-5701
+chitose,新千歳空港センター,,0123-46-5701
 sapporo,札幌営業所,,011-865-5511
 sizunai,静内営業所,,0146-42-1231
 biratori,平取営業所,,01457-2-2311
