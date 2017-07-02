@@ -47,7 +47,7 @@ def create_trip(sheet, service_id):
     trip_nums = range(1, col_nums - 4)
     route_id = sheet.name
     pair = [(get_service_id(service_id, route_id, n), n) for n in trip_nums]
-    return [f"{route_id},{s},{route_id}_{service_id}_{n},,,{get_dir(route_id)},,,0,0,,," for s, n in pair]
+    return [f"{route_id},{s},{route_id}_{s}_{n},,,{get_dir(route_id)},,,0,0,,," for s, n in pair]
 
 
 def create_trips(sheets, service_id):

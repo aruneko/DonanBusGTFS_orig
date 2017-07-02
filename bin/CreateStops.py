@@ -43,7 +43,7 @@ def create_pole(node):
     n = node
     t = n['tags']
     refs = t['ref'].split()
-    return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,,," for ref in refs]
+    return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs]
 
 
 def create_poles(nodes):

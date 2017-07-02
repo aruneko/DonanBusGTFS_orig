@@ -17,11 +17,19 @@ stops: [Stop] = [Stop(s[0], s[2], s[8]) for s in splitted]
 
 
 def get_pole_id(pole_num):
-    return chr(64 + int(pole_num)) if pole_num.isdigit() else '0'
+    pole_id = chr(64 + int(pole_num)) if pole_num.isdigit() else ''
+    return pole_id if pole_id.isalpha() else ''
 
 
-def find_stop_id(pole_num, stop_name):
-    pole_id = get_pole_id(pole_num)
-    stop_id = [s.stop_id for s in stops if s.location_type == 0 and stop_name in s.stop_name and pole_id in s.stop_id]
+def find_stop_id(stop_name, pole_num=None):
+    if pole_num is not None:
+        pole_id = get_pole_id(pole_num)
+        stop_id = [s.stop_id for s in stops if s.location_type == 0 and stop_name in s.stop_name and pole_id in s.stop_id]
+    else:
+        stop_id = []
     tmp_stop_id = [s.stop_id for s in stops if s.location_type == 1 and s.stop_name == stop_name]
-    return stop_id if stop_id is not [] else tmp_stop_id
+    if len(stop_id) == 0:
+        stop_id = ['']
+    if len(tmp_stop_id) == 0:
+        tmp_stop_id = ['']
+    return stop_id if stop_id[0] is not '' else tmp_stop_id
