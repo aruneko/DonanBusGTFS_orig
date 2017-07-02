@@ -42,16 +42,17 @@ def get_service_id(service_id, route_id, n):
         return service_id
 
 
-def create_trip(sheet, service_id):
+def create_trip(sheet, service_id, shapes):
     col_nums = sheet.ncols
     trip_nums = range(1, col_nums - 4)
     route_id = sheet.name
     pair = [(get_service_id(service_id, route_id, n), n) for n in trip_nums]
-    return [f"{route_id},{s},{route_id}_{s}_{n},,,{get_dir(route_id)},,,0,0,,," for s, n in pair]
+    shape_id = [sh[1] for sh in shapes if sh[0] == sheet.name][0]
+    return [f"{route_id},{s},{route_id}_{s}_{n},,,{get_dir(route_id)},,{shape_id},0,0,,," for s, n in pair]
 
 
-def create_trips(sheets, service_id):
-    return chain.from_iterable([create_trip(sheet, service_id) for sheet in sheets])
+def create_trips(sheets, service_id, shapes):
+    return chain.from_iterable([create_trip(sheet, service_id, shapes) for sheet in sheets])
 
 
 def main():
@@ -61,8 +62,11 @@ def main():
     raw_week_sheets = extract_valid_sheets(week_sheets_file)
     raw_holy_sheets = extract_valid_sheets(holy_sheets_file)
 
-    week_trips = create_trips(raw_week_sheets, 'weekday')
-    holy_trips = create_trips(raw_holy_sheets, 'holiday')
+    shape_file = open('../raw/trip_shape.csv', 'r').readlines()
+    shapes = [s[:-1].split(',') for s in shape_file]
+
+    week_trips = create_trips(raw_week_sheets, 'weekday', shapes)
+    holy_trips = create_trips(raw_holy_sheets, 'holiday', shapes)
 
     print(HEADER)
 
