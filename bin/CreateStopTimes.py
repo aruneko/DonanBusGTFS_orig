@@ -5,7 +5,7 @@ from datetime import time
 
 WEEK_FILE_NAME = '../raw/normalized_weekday_20170401.xls'
 HOLY_FILE_NAME = '../raw/normalized_holiday_20170401.xls'
-HEADER = 'trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type,shape_dist_travel,timepoint'
+HEADER = 'trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type,shape_dist_traveled,timepoint'
 
 
 def create_stop_times(sheets, service_id):
@@ -17,8 +17,8 @@ def create_stop_times(sheets, service_id):
             arrival_time = time(raw_time//3600, (raw_time % 3600)//60, raw_time % 60)
             stop_id = f'{row[1]}_{row[2]}'
             stop_seq = i
-            pick_type = 0 if i is not sheet.nrows - 1 else 1
-            drop_type = 0 if i is not 1 else 1
+            pick_type = 3 if i is not sheet.nrows - 1 else 1
+            drop_type = 3 if i is not 1 else 1
             stop_time = f'{trip_id},{arrival_time},{arrival_time},{stop_id},{stop_seq},,{pick_type},{drop_type},,'
             yield stop_time
 

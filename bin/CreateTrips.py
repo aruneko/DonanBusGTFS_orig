@@ -5,7 +5,7 @@ from itertools import chain
 
 WEEK_FILE_NAME = '../raw/timetable_weekday_20170401.xls'
 HOLY_FILE_NAME = '../raw/timetable_holyday_20170401.xls'
-HEADER = 'route_id,service_id,trip_id,trip_headsign,trip_shot_name,direction_id,block_id,shape_id,wheelchair_accesible,bikes_allowed,jp_trip_desc,jp_trip_desc_symbol,jp_office_id'
+HEADER = 'route_id,service_id,trip_id,trip_headsign,trip_short_name,direction_id,block_id,shape_id,wheelchair_accessible,bikes_allowed,jp_trip_desc,jp_trip_desc_symbol,jp_office_id'
 
 
 def extract_valid_sheets(sheets_file):
