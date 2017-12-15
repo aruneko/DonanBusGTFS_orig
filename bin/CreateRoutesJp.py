@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import xlrd
-from .util import WEEKDAY_FILE_NAME, WEEKEND_FILE_NAME, extract_valid_sheets
+from util import WEEKDAY_FILE_NAME, WEEKEND_FILE_NAME, extract_valid_sheets
 
 
 HEADER = 'route_id,route_update_date,origin_stop,via_stop,destination_stop'
