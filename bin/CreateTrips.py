@@ -15,34 +15,11 @@ def get_dir(route_id):
         return '0'
 
 
-def get_service_id(service_id, route_id, n):
-    if service_id == 'weekday' and route_id == '108700' and n == 2:
-        return 'seiryo'
-    elif route_id == '120700' or \
-            route_id == '120800' or \
-            route_id == '120900' or \
-            route_id == '123800' or \
-            route_id == '123810' or \
-            route_id == '124210' or \
-            route_id == '124400' or \
-            route_id == '126710' or \
-            route_id == '127100' or \
-            route_id == '127200' or \
-            route_id == '127310':
-        return 'shimizu'
-    elif route_id == '121000':
-        return 'tosho'
-    elif service_id == 'weekday' and route_id == '131100' and n == 2:
-        return 'seiryo_akebi'
-    else:
-        return service_id
-
-
 def create_trip(sheet, service_id, shapes):
     col_nums = sheet.ncols
     trip_nums = range(1, col_nums - 4)
     route_id = sheet.name
-    pair = [(get_service_id(service_id, route_id, n), n) for n in trip_nums]
+    pair = [(service_id, n) for n in trip_nums]
     shape_id = [sh[1] for sh in shapes if sh[0] == sheet.name][0]
     return [f"{route_id},{s},{route_id}_{s}_{n},,,{get_dir(route_id)},,{shape_id},0,0,,," for s, n in pair]
 
