@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 
 import xlrd
+from .util import WEEKDAY_FILE_NAME, WEEKEND_FILE_NAME, extract_valid_sheets
 
-WEEK_FILE_NAME = '../raw/timetable_weekday_20170401.xls'
-HOLY_FILE_NAME = '../raw/timetable_holyday_20170401.xls'
+
 HEADER = 'route_id,route_update_date,origin_stop,via_stop,destination_stop'
 UPDATE_DATE = '20170401'
-
-
-def extract_valid_sheets(sheets_file):
-    return [s for s in sheets_file if int(s.name) < 140000 and s.ncols != 2]
 
 
 def trans_original_name(name):
@@ -102,16 +98,16 @@ def create_route_jps(names):
 
 
 def main():
-    week_sheets_file = xlrd.open_workbook(WEEK_FILE_NAME).sheets()
-    holy_sheets_file = xlrd.open_workbook(HOLY_FILE_NAME).sheets()
+    weekday_sheets_file = xlrd.open_workbook(WEEKDAY_FILE_NAME).sheets()
+    weekend_sheets_file = xlrd.open_workbook(WEEKEND_FILE_NAME).sheets()
 
-    raw_week_sheets = extract_valid_sheets(week_sheets_file)
-    raw_holy_sheets = extract_valid_sheets(holy_sheets_file)
+    raw_weekday_sheets = extract_valid_sheets(weekday_sheets_file)
+    raw_weekend_sheets = extract_valid_sheets(weekend_sheets_file)
 
-    week_sheet = extract_names_and_stops(raw_week_sheets)
-    holy_sheet = extract_names_and_stops(raw_holy_sheets)
+    weekday_sheet = extract_names_and_stops(raw_weekday_sheets)
+    weekend_sheet = extract_names_and_stops(raw_weekend_sheets)
 
-    names = week_sheet + holy_sheet
+    names = weekday_sheet + weekend_sheet
     routes = sorted(set(create_route_jps(names)))
 
     print(HEADER)
