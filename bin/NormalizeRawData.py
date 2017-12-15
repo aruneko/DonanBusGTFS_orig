@@ -6,16 +6,11 @@ from datetime import datetime
 from unicodedata import normalize
 from CreateTrips import get_service_id
 from LoadStops import find_stop_id, get_pole_id
+from util import WEEKDAY_FILE_NAME, WEEKEND_FILE_NAME, extract_valid_sheets
 
-WEEK_FILE_NAME = '../raw/timetable_weekday_20170401.xls'
-HOLY_FILE_NAME = '../raw/timetable_holyday_20170401.xls'
-NORM_WEEK_FILE = '../raw/normalized_weekday_20170401.xls'
-NORM_HOLY_FILE = '../raw/normalized_holiday_20170401.xls'
+NORM_WEEKDAY_FILE = '../raw/normalized_weekday_20170401.xls'
+NORM_WEEKEND_FILE = '../raw/normalized_weekend_20170401.xls'
 POLE_COMPLETION = '../raw/pole_completions.csv'
-
-
-def extract_valid_sheets(sheets_file):
-    return [s for s in sheets_file if int(s.name) < 140000 and s.ncols != 2]
 
 
 def is_noboribetsu_civic_center(route_id):
@@ -92,23 +87,23 @@ def create_sheet(raw_sheet, new_sheet, serv_id, poles):
 
 
 def main():
-    week_sheets_file = xlrd.open_workbook(WEEK_FILE_NAME).sheets()
-    holy_sheets_file = xlrd.open_workbook(HOLY_FILE_NAME).sheets()
+    weekday_sheets_file = xlrd.open_workbook(WEEKDAY_FILE_NAME).sheets()
+    weekend_sheets_file = xlrd.open_workbook(WEEKEND_FILE_NAME).sheets()
 
-    raw_week_sheets = extract_valid_sheets(week_sheets_file)
-    raw_holy_sheets = extract_valid_sheets(holy_sheets_file)
+    raw_weekday_sheets = extract_valid_sheets(weekday_sheets_file)
+    raw_weekend_sheets = extract_valid_sheets(weekend_sheets_file)
 
-    new_week_sheets = xlwt.Workbook()
-    new_holy_sheets = xlwt.Workbook()
+    new_weekday_sheets = xlwt.Workbook()
+    new_weekend_sheets = xlwt.Workbook()
 
     pole_file = open(POLE_COMPLETION)
     poles = [p[:-1].split(',') for p in pole_file.readlines()]
 
-    create_sheet(raw_week_sheets, new_week_sheets, 'weekday', poles)
-    create_sheet(raw_holy_sheets, new_holy_sheets, 'holiday', poles)
+    create_sheet(raw_weekday_sheets, new_weekday_sheets, 'weekday', poles)
+    create_sheet(raw_weekend_sheets, new_weekend_sheets, 'weekend', poles)
 
-    new_week_sheets.save(NORM_WEEK_FILE)
-    new_holy_sheets.save(NORM_HOLY_FILE)
+    new_weekday_sheets.save(NORM_WEEKDAY_FILE)
+    new_weekend_sheets.save(NORM_WEEKEND_FILE)
 
 
 if __name__ == '__main__':
