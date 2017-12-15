@@ -44,18 +44,19 @@ def sort_nodes(nodes):
     return sorted(nodes, key=lambda node: node['tags']['ref'])
 
 
-def create_pole(node):
+def create_pole(node, exist_stops):
     n = node
     t = n['tags']
     refs = t['ref'].split()
     if has_desc(node):
-        return [f"{ref},,{t['name']},{t['description']},{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs]
+        return [f"{ref},,{t['name']},{t['description']},{n['lat']},{n['lon']},,,0,{ref[:-2]},,"
+                for ref in refs if ref in exist_stops]
     else:
-        return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs]
+        return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs if ref in exist_stops]
 
 
-def create_poles(nodes):
-    return chain.from_iterable([create_pole(node) for node in nodes])
+def create_poles(nodes, exist_stops):
+    return chain.from_iterable([create_pole(node, exist_stops) for node in nodes])
 
 
 def create_stop(nodes):
@@ -77,7 +78,10 @@ def main():
                     extract_valid_nodes,
                     sort_nodes)
 
-    poles = create_poles(nodes)
+    exist_stops_file = open('../gtfs/stop_times.txt', 'r').readlines()[1:]
+    exist_stops = set([line.split(',')[3] for line in exist_stops_file])
+
+    poles = create_poles(nodes, exist_stops)
     stops = create_stops(nodes)
 
     print(HEADER)
