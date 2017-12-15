@@ -31,6 +31,10 @@ def has_ref(node):
     return 'ref' in node['tags']
 
 
+def has_desc(node):
+    return 'description' in node['tags'].keys()
+
+
 def extract_valid_nodes(nodes):
     return [node for node in nodes if has_ref(node)]
 
@@ -43,7 +47,10 @@ def create_pole(node):
     n = node
     t = n['tags']
     refs = t['ref'].split()
-    return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs]
+    if has_desc(node):
+        return [f"{ref},,{t['name']},{t['description']},{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs]
+    else:
+        return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs]
 
 
 def create_poles(nodes):
