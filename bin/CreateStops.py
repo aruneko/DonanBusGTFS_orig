@@ -58,19 +58,10 @@ def create_poles(nodes):
     return chain.from_iterable([create_pole(node) for node in nodes])
 
 
-def valid_name(name):
-    if '東町ターミナル' in name:
-        return '東町ターミナル'
-    elif name[-1:].isdigit():
-        return name[:-1]
-    else:
-        return name
-
-
 def create_stop(nodes):
     lat = sum([float(n['lat']) for n in nodes]) / len(nodes)
     lon = sum([float(n['lon']) for n in nodes]) / len(nodes)
-    name = valid_name(nodes[0]['tags']['name'])
+    name = nodes[0]['tags']['name']
     ref = nodes[0]['tags']['ref'][:4]
     return f"{ref},,{name},,{lat},{lon},,,1,,,"
 

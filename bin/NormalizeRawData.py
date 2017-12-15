@@ -4,7 +4,6 @@ import xlrd
 import xlwt
 from datetime import datetime
 from unicodedata import normalize
-from CreateTrips import get_service_id
 from LoadStops import find_stop_id, get_pole_id
 from util import WEEKDAY_FILE_NAME, WEEKEND_FILE_NAME, extract_valid_sheets
 
@@ -37,7 +36,7 @@ def create_sheet(raw_sheet, new_sheet, serv_id, poles):
     for sheet in raw_sheet:
         for time_i in range(0, sheet.ncols - 5):
             # シートの準備
-            service_id = get_service_id(serv_id, sheet.name, time_i + 1)
+            service_id = serv_id
             trip_id = f'{sheet.name}_{service_id}_{time_i + 1}'
             curr_sheet = new_sheet.add_sheet(trip_id)
             # stop_nameの書き込み
