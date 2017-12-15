@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import xlrd
-from util import WEEKDAY_FILE_NAME, WEEKEND_FILE_NAME, extract_valid_sheets
+from .util import WEEKDAY_FILE_NAME, WEEKEND_FILE_NAME, extract_valid_sheets
 
-HEADER = 'route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,jp_parent_route_id'
+HEADER = 'route_id,agency_id,route_short_name,route_long_name,route_desc,' \
+         'route_type,route_url,route_color,route_text_color,jp_parent_route_id'
 
 
 def extract_sheet_names(sheets):
