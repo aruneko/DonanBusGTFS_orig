@@ -49,10 +49,11 @@ def create_pole(node, exist_stops):
     t = n['tags']
     refs = t['ref'].split()
     if has_desc(node):
-        return [f"{ref},,{t['name']},{t['description']},{n['lat']},{n['lon']},,,0,{ref[:-2]},,"
+        return [f"{ref},,{t['name']},{t['description']},{n['lat']},{n['lon']},{ref},,0,{ref[:-2]},,"
                 for ref in refs if ref in exist_stops]
     else:
-        return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},,,0,{ref[:-2]},," for ref in refs if ref in exist_stops]
+        return [f"{ref},,{t['name']},,{n['lat']},{n['lon']},{ref},,0,{ref[:-2]},,"
+                for ref in refs if ref in exist_stops]
 
 
 def create_poles(nodes, exist_stops):
