@@ -69,7 +69,7 @@ def create_sheet(raw_sheet, new_sheet, serv_id, poles):
             pole_ids.insert(0, 'pole_id')
             col += 1
             for i, pole_id in enumerate(pole_ids):
-                if sheet.name == '109210' and i == 45:
+                if (sheet.name == '109210' and i == 45) or (sheet.name == '110210' and i == 34):
                     # 2回目の絵鞆2丁目を区別する
                     pole_id = 'C'
                 else:
