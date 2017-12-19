@@ -31,4 +31,3 @@ weekday,20180212,2
 weekend,20180212,1
 weekday,20180321,2
 weekend,20180321,1
-
