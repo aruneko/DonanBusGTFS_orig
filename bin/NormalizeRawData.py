@@ -69,7 +69,11 @@ def create_sheet(raw_sheet, new_sheet, serv_id, poles):
             pole_ids.insert(0, 'pole_id')
             col += 1
             for i, pole_id in enumerate(pole_ids):
-                pole_id = pole_id if pole_id is not '' else find_pole(poles, sheet.name, stop_ids[i][0], i)
+                if sheet.name == '109210' and i == 45:
+                    # 2回目の絵鞆2丁目を区別する
+                    pole_id = 'C'
+                else:
+                    pole_id = pole_id if pole_id is not '' else find_pole(poles, sheet.name, stop_ids[i][0], i)
                 curr_sheet.write(i, col, pole_id)
             # departure_timeの書き込み
             times = [s + ':00' for s in sheet.col_values(time_i + 5)[6:]]

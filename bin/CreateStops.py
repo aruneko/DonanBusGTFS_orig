@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import requests
+from copy import deepcopy
 from itertools import groupby, chain
 from functools import reduce
 
@@ -81,6 +82,11 @@ def main():
 
     exist_stops_file = open('../gtfs/stop_times.txt', 'r').readlines()[1:]
     exist_stops = set([line.split(',')[3] for line in exist_stops_file])
+
+    etomo_2 = deepcopy([node for node in nodes if node['tags']['ref'] == '0002_A'][0])
+    etomo_2['tags']['ref'] = '0002_C'
+
+    nodes = sort_nodes(nodes + [etomo_2])
 
     poles = create_poles(nodes, exist_stops)
     stops = create_stops(nodes)
