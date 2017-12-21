@@ -69,9 +69,10 @@ def create_stop(nodes):
     return f"{ref},,{name},,{lat},{lon},,,1,,,"
 
 
-def create_stops(nodes):
-    grouped = groupby(nodes, lambda n: n['tags']['ref'][:4])
-    return [create_stop(list(g[1])) for g in grouped]
+def create_stops(nodes, exist_stops):
+    exist_nodes = [node for node in nodes if node['tags']['ref'][:4] in exist_stops]
+    grouped = groupby(exist_nodes, lambda n: n['tags']['ref'][:4])
+    return [create_stop(list(g)) for _, g in grouped]
 
 
 def main():
@@ -89,7 +90,7 @@ def main():
     nodes = sort_nodes(nodes + [etomo_2])
 
     poles = create_poles(nodes, exist_stops)
-    stops = create_stops(nodes)
+    stops = create_stops(nodes, [e[:4] for e in exist_stops])
 
     print(HEADER)
 
